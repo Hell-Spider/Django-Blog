@@ -1,0 +1,65 @@
+{% extends 'Custom/index.html' %}
+
+{% block content %}
+
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('../static/img/home-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2 style="font-size: 50px;">Ampers@{{user}} Blog</h2>
+                        <span class="subheading">A Blog Theme by Start Bootstrap</span>
+                        <span class="subheading">Total Posts : {{posts_count}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% if posts_count == 0 %}
+                    <div class="post-preview">
+                        <h2 class="post-title">No Post have been published by you yet.</h2>
+                    </div>
+                {% else %}
+                    {% for post in page_obj %}
+                        <!-- Post preview-->
+                        <div class="post-preview">
+                            <a href="{% url 'detail_post' post.id %}">
+                                <h2 class="post-title">{{ post.title|safe }}</h2>
+                                <h3 class="post-subtitle">{{ post.description|body }}</h3>
+                            </a>
+                            <p class="post-meta">
+                                Posted by
+                                <a href="#">{{post.author}}</a>
+                                on {{ post.publish_date }}
+                                {% if post.is_modified %}
+                                and Modified on {{post.update_date}}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <!-- Divider-->
+                        <a href="{% url 'delete' post.id %}" type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
+                        <a href="{% url 'update' post.id %}" type="submit" class="btn btn-info"><i class="fas fa-edit"></i> Edit</a>
+                        <hr class="my-4" />
+                    {% endfor %}
+                    <!-- Pager-->
+                    <center>                        
+                        {% if page_obj.has_previous %}
+                        <a href="?page={{page_obj.previous_page_number}}" style="padding: 8px 16px; text-decoration: none; background-color: coral;color: black;border-radius: 50%;" class="previous-blog round-blog">&#8249;</a>
+                        {% endif %}
+                        <span>{{page_obj.number}}</span> 
+                        {% if page_obj.has_next %}
+                        <a href="?page={{page_obj.next_page_number}}" style="padding: 8px 16px; text-decoration: none; background-color: coral;color: black;border-radius: 50%;">&#8250;</a>
+                        {% endif %}
+                    </center>
+                {% endif %}
+            </div>
+        </div>
+    </div> 
+
+{% endblock %}

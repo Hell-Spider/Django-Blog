@@ -1,0 +1,53 @@
+{% extends 'Custom/index.html' %}
+
+{% block content %}
+
+<!-- Page Header-->
+<header class="masthead">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Create a Blog</h1>
+                    <span class="subheading">Have something interesting, jot it down.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <div class="form-outline mb-4">
+            <div class="">Title</div>
+            {{form.title}}
+        </div>
+        <div class="form-outline mb-4">
+            <div class="">Description</div>
+            {{form.description}}
+        </div>
+
+        <!-- Submit button -->
+        {% if update %}
+            <input type="submit" value="Update" class="btn btn-primary btn-block mb-4">
+        {% else %}
+            <input type="submit" value="Create" class="btn btn-primary btn-block mb-4">
+        {% endif %}
+    </form>
+</div>
+
+<!--Main Content-->
+<script>
+    //Query All input fields
+    var form_fields = document.getElementsByTagName('input')
+    form_fields[1].placeholder='Enter Post Title here...';
+    form_fields[1].className = ' form-control'
+
+    var form_textarea = document.getElementsByTagName('textarea')
+    form_textarea[0].placeholder = 'Enter Post here...'
+    form_textarea[0].className = ' form-control'
+
+</script>
+{% endblock %}
